@@ -1,0 +1,26 @@
+
+{
+    "rubrica": [
+        {
+            "titolo": "Sig",
+            "nome": "Marco",
+            "secondo_nome": "Renato",
+            "cognome": "Cerri",
+            "telefono": "xxx",
+            "data di nascita": "16/11/1989",
+            "indirizzo": "Via Carlo Crivelli 30",
+            "email": "marco.cerri@studente.com"
+        },
+        
+        {
+            "titolo": "Sig",
+            "nome": "Mario",
+            "secondo_nome": "Romolo",
+            "cognome": "Rossi",
+            "telefono": "zzz",
+            "data di nascita": "16/01/1996",
+            "indirizzo": "Piazza Duomo 2",
+            "email": "marco.cerri@studente.com"
+        }
+    ]
+}
