@@ -1,0 +1,70 @@
+CREATE TABLE aeroporto (
+  aeroportoid integer PRIMARY KEY,
+  Citta varchar(100),
+  nazione varchar(100),
+  NumPiste integer  
+);
+
+CREATE TABLE volo (
+	
+  voloid varchar (100) PRIMARY KEY,
+  GiornoSett varchar(100),
+  CittaPart varchar (100),
+  OraPart integer,
+  CittaArr varchar (100),
+  OraArr integer,
+  TipoAereo varchar (100)
+);
+
+
+CREATE TABLE aereo (
+  aereoid integer PRIMARY KEY,
+  TipoAereo varchar(100),
+  NumPasseggeri integer,
+  QtaMerci integer
+);
+
+
+INSERT INTO aeroporto  VALUES  (1,'Porto','Portogallo',NULL);
+
+INSERT INTO aeroporto  VALUES  (3, 'Lisbona','Portogallo',12);
+
+INSERT INTO aeroporto  VALUES  (5, 'Madrid','Spagna',3);
+
+INSERT INTO aeroporto  VALUES  (2, 'Roma','Italia',7);
+
+INSERT INTO aeroporto  VALUES  (4, 'Torino','Italia',2);
+
+INSERT INTO aeroporto  VALUES  (9, 'Bologna','Italia',5);
+
+INSERT INTO aeroporto  VALUES  (8,'Parigi','France',6);
+
+INSERT INTO aeroporto  VALUES  (11,'Londra','Regno Unito',8);
+
+INSERT INTO aeroporto  VALUES  (12, 'Berlino','Germania',10);
+
+INSERT INTO volo  VALUES  ('MDR340', 'Lun', 'Milano', 1000, 'Londra', 0630, 'Boing');
+
+INSERT INTO volo  VALUES  ('PR430', 'Mer', 'Bergamo', 0930, 'Londra', 0645, 'Boing');
+
+INSERT INTO volo  VALUES  ('TR340', 'Gio', 'Milano', 1145, 'Bologna', 12, 'Boing');
+
+INSERT INTO volo  VALUES  ('ZX439', 'Ven', 'Bologna', 1435, 'Torino', 12, 'BoingZTY');
+
+INSERT INTO volo  VALUES  ('QR449', 'Dom', 'Torino', 1715, 'Londra', 12, 'Boing');
+
+INSERT INTO volo  VALUES  ('AZ274', 'Sab', 'Milano', 1645, 'Londra', 12, 'Airbus');
+
+INSERT INTO aereo VALUES  (1, 'Boing', 80, 0);
+
+INSERT INTO aereo VALUES  (2, 'BoingZTY', 0, 40);
+
+INSERT INTO aereo VALUES  (3, 'Airbus', 0, 40);
+
+# SELECT * FROM aeroporto WHERE NumPiste is NULL;
+
+# SELECT * FROM volo WHERE CittaPart = 'Torino'
+
+# SELECT * FROM volo WHERE CittaArr = 'Bologna' 
+
+# SELECT * FROM volo WHERE voloid = 'AZ274';
