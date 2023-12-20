@@ -68,3 +68,21 @@ INSERT INTO aereo VALUES  (3, 'Airbus', 0, 40);
 # SELECT * FROM volo WHERE CittaArr = 'Bologna' 
 
 # SELECT * FROM volo WHERE voloid = 'AZ274';
+
+EXTRA 
+
+Voli diretti a Londra ordinati per alfabeto
+
+#SELECT CittaPart FROM volo
+#WHERE CittaArr= 'Londra'
+#ORDER BY CittaPart
+
+
+
+#SELECT TipoAereo FROM volo
+# WHERE CittaPart = 'Torino'
+
+# SELECT count(*)
+# FROM volo JOIN aeroporto ON CittaArr=Citta
+# WHERE CittaPart = 'Bergamo' AND Nazione <> 'Italia'
+
