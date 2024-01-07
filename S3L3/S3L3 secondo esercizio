@@ -1,0 +1,34 @@
+CREATE TABLE STUDENTE ( 
+    Matricola Integer PRIMARY KEY,
+    Nome VARCHAR(50),
+    Citta VARCHAR(50) );
+
+CREATE TABLE CORSO ( 
+    Codice Integer PRIMARY KEY,
+    Nome VARCHAR(50),
+    MatricolaDocente Integer 
+    );
+
+CREATE TABLE DOCENTE (
+    Matricola Integer PRIMARY KEY,
+    Nome VARCHAR(50) 
+    );
+
+CREATE TABLE ESAME ( 
+    Codice Integer PRIMARY KEY, 
+    MatricolaStudente Integer, 
+    Data DATE, 
+    Voto DECIMAL(4,2), 
+    SettoreScientifico VARCHAR(50) 
+    );
+
+SELECT student.matricola, student.nome, esame.voto, docente.nome AS docente
+FROM student
+JOIN esame ON student.matricola = esame.matricola_studente
+JOIN corso ON esame.codice_corso = corso.codice
+JOIN docente ON corso.matricola_docente = docente.matricola
+WHERE esame.voto > 28;
+
+SELECT docente.nome, corso.nome AS corso, corso.settore_scientifico
+FROM docente
+JOIN corso ON docente.matricola = corso.matricola_docente;
