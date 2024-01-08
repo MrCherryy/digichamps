@@ -1,0 +1,246 @@
+CREATE TABLE vendite ( 
+    ID_transazione INT AUTO_INCREMENT PRIMARY KEY,
+    categoria_prodotto VARCHAR(50) NOT NULL,
+    costo_vendita DECIMAL(10, 2) NOT NULL,
+    sconto DECIMAL(5, 2) 
+    );
+
+CREATE TABLE dettagli_vendite (
+    ID_transazione INT,
+    data_transazione DATE,
+    quantità INT,
+    FOREIGN KEY (ID_transazione) REFERENCES vendite(ID_transazione) 
+    );
+
+CREATE TABLE clienti ( 
+    IDCliente INT PRIMARY KEY,
+    IDVendita INT, FOREIGN KEY (IDVendita) REFERENCES vendite(ID_transazione)
+    );
+
+
+
+INSERT INTO vendite (categoria_prodotto, costo_vendita, sconto) VALUES
+    ('Elettrodomestici', 500.00, 10),
+    ('Abbigliamento', 100.00, 20),
+    ('Elettronica', 800.00, 15),
+    ('Giochi', 50.00, 30),
+    ('Libri', 20.00, 0.00),
+    ('Casa', 200.00, 55),
+    ('Elettrodomestici', 600.00, NULL),
+    ('Abbigliamento', 150.00, 75),
+    ('Elettronica', 1000.00, 0.00),
+    ('Giochi', 80.00, 15),
+    ('Libri', 25.00, 10),
+    ('Casa', 250.00, 20),
+    ('Elettrodomestici', 700.00, 5),
+    ('Abbigliamento', 200.00, 0.00),
+    ('Elettronica', 1200.00, 0.00),
+    ('Giochi', 100.00, 50),
+    ('Libri', 30.00, 0.00),
+    ('Casa', 300.00, 0.15),
+    ('Elettrodomestici', 800.00, 0.20),
+    ('Abbigliamento', 250.00, 0.10), 
+    ('Elettronica', 1500.00, 0.15),
+    ('Giochi', 120.00, 0.00),
+    ('Libri', 35.00, 0.05),
+    ('Casa', 350.00, 0.55), 
+    ('Elettrodomestici', 900.00, 0.10), 
+    ('Abbigliamento', 300.00, 0.05), 
+    ('Elettronica', 1800.00, 0.20), 
+    ('Giochi', 150.00, 0.10), 
+    ('Libri', 40.00, 0.15), 
+    ('Casa', 400.00, 0.05);
+
+INSERT INTO dettagli_vendite (ID_transazione, data_transazione, quantità) VALUES 
+    (1, '2023-12-01', 10),
+    (2, '2023-01-01', 2),
+    (3, '2023-01-01', 3), 
+    (4, '2023-01-01', 4), 
+    (5, '2023-01-01', 5), 
+    (6, '2023-01-06', 6), 
+    (7, '2023-01-07', 7), 
+    (8, '2023-01-08', 8), 
+    (9, '2023-01-09', 9), 
+    (10, '2023-02-10', 10), 
+    (11, '2023-03-11', 1), 
+    (12, '2023-03-12', 2), 
+    (13, '2023-05-13', 3), 
+    (14, '2023-05-14', 4), 
+    (15, '2023-05-15', 5), 
+    (16, '2023-05-16', 6), 
+    (17, '2023-08-17', 7), 
+    (18, '2023-08-18', 8), 
+    (19, '2023-09-19', 9), 
+    (20, '2023-09-20', 10), 
+    (21, '2023-10-21', 1), 
+    (22, '2023-11-22', 2), 
+    (23, '2023-07-23', 3), 
+    (24, '2023-01-24', 4), 
+    (25, '2023-01-25', 5), 
+    (26, '2023-04-26', 6), 
+    (27, '2023-01-27', 7), 
+    (28, '2023-01-28', 8), 
+    (29, '2023-01-29', 9), 
+    (30, '2023-12-30', 10);
+
+INSERT INTO clienti (IDCliente, IDVendita) VALUES 
+    (1, 5),
+    (2, 5),
+    (3, 6),
+    (4, 7), 
+    (5, 5), 
+    (6, 3), 
+    (7, 2), 
+    (8, 2), 
+    (9, 3), 
+    (10, 1);
+
+
+# Seleziona tutte le vendite avvenute in una specifica data 
+
+SELECT *
+FROM vendite
+JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+WHERE dettagli_vendite.data_transazione = '2023-01-01';
+
+# Elenco di tutte le vendite con lo sconto maggiore del 50%
+
+SELECT *
+FROM vendite
+WHERE sconto > 50;
+
+# Calcola il totale delle vendite (costo) per categoria
+
+SELECT categoria_prodotto AS Categoria,
+SUM(costo_vendita) AS Totale_vendite_Categoria
+FROM vendite
+GROUP BY categoria_prodotto;
+
+# Trova il numero totale di prodotti venduti per categoria
+
+SELECT categoria_prodotto,
+SUM(quantità) AS Totale_prodotti_Categoria
+FROM dettagli_vendite
+JOIN vendite ON dettagli_vendite.ID_transazione = vendite.ID_transazione
+GROUP BY categoria_prodotto;
+
+# Seleziona le vendite dell ultimo trimestre
+
+SELECT *
+FROM vendite
+INNER JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+where data_transazione> NOW() - INTERVAL 3 month;
+
+
+# Raggruppa le vendite per mese e calcola il totale delle vendite per ogni mese
+
+SELECT DATE_FORMAT(data_transazione, "%Y-%m") AS Mese,
+SUM(costo_vendita) AS totale_vendite
+FROM vendite
+JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+GROUP BY mese
+ORDER BY mese;
+
+
+# Trova la categoria con lo sconto medio più alto
+
+SELECT categoria_prodotto AS Categoria_Con_Sconto_Maggiore
+FROM vendite
+GROUP BY categoria_prodotto
+ORDER BY AVG(sconto) DESC LIMIT 1;
+
+
+# Confronta le vendite mese per mese per vedere l incremento o il decremento delle vendite 
+
+SELECT MONTH(data_transazione) AS mese,
+YEAR(data_transazione) AS anno,
+SUM(costo_vendita) AS vendite
+FROM vendite
+JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+GROUP BY mese, anno
+ORDER BY anno, mese;
+
+# Calcola l incremento o il decremento mese per mese 
+# Anche spulciando stack overflow non sono stato in grado di trovare una soluzione a questa domanda
+# Ho però trovato la funzione LAG per mettere a confronto le vendite di un dato mese con quella precedente
+
+SELECT DATE_FORMAT(data_transazione, '%Y-%m') AS mese,
+SUM(costo_vendita) AS vendite_mensili,
+LAG(SUM(costo_vendita)) OVER (ORDER BY DATE_FORMAT(data_transazione, '%Y-%m')) AS vendite_mes_prec
+FROM vendite
+JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+GROUP BY DATE_FORMAT(data_transazione, '%Y-%m')
+ORDER BY mese;
+
+# Query di prova per dividere le varie data_transazione nelle quattro stagioni
+
+#SELECT ID_transazione, data_transazione,
+#CASE
+#WHEN MONTH(data_transazione) IN (12, 1, 2) THEN 'Inverno'
+#WHEN MONTH(data_transazione) IN (3, 4, 5) THEN 'Primavera'
+#WHEN MONTH(data_transazione) IN (6, 7, 8) THEN 'Estate'
+#WHEN MONTH(data_transazione) IN (9, 10, 11) THEN 'Autunno'
+#END AS stagione
+#FROM dettagli_vendite
+#ORDER BY data_transazione;
+
+
+# Soluzione/Risposta per esercizio
+# Confronta le vendite totali in diverse stagioni
+
+SELECT CASE
+    WHEN MONTH(data_transazione) IN (12, 1, 2) THEN 'Inverno'
+    WHEN MONTH(data_transazione) IN (3, 4, 5) THEN 'Primavera'
+    WHEN MONTH(data_transazione) IN (6, 7, 8) THEN 'Estate'
+    WHEN MONTH(data_transazione) IN (9, 10, 11) THEN 'Autunno'
+    END AS Stagione,
+    SUM(costo_vendita) AS Vendite_Totali
+    FROM vendite 
+    JOIN dettagli_vendite ON vendite.ID_transazione = dettagli_vendite.ID_transazione
+    GROUP BY stagione
+    ORDER BY Vendite_Totali;
+
+# Scrivi una query per trovare i top 5 clienti con il maggior numero di acquisti. 
+
+SELECT clienti.IDCliente,
+COUNT(*) as numero_acquisti
+FROM clienti
+JOIN vendite ON clienti.IDVendita = vendite.ID_transazione
+GROUP BY clienti.IDCliente
+ORDER BY numero_acquisti DESC LIMIT 5;
+
+
+
+# EXTRA / BONUS
+
+# Query per trovare ultima data in cui è stata effettuata una vendita 
+
+SELECT MAX(data_transazione) AS ultima_vendita 
+FROM dettagli_vendite;
+
+# Query per ottenere le vendite effettuate in un intervallo di date:
+
+SELECT *
+FROM dettagli_vendite
+WHERE data_transazione BETWEEN '2023-03-01' AND '2023-05-31';
+
+
+#Query per ottenere l elenco delle vendite effettuate da un determinato cliente: 
+
+SELECT vendite.ID_transazione, vendite.categoria_prodotto, vendite.costo_vendita, vendite.sconto
+FROM vendite 
+INNER JOIN clienti ON vendite.ID_transazione = clienti.IDVendita
+WHERE clienti.IDCliente = 5;
+
+# Query per ottenere l importo totale delle vendite con sconto:
+
+#SELECT costo_vendita, sconto, (costo_vendita * (1 - (sconto / 100))) AS importo_scontato
+#FROM vendite
+#WHERE sconto > 0;
+
+# Query come sopra (importo totale delle vendite con sconto) con l aggiunta della funzione CAST per pulizia
+
+SELECT costo_vendita, sconto,
+CAST((costo_vendita * (1 - (sconto / 100))) AS decimal(10,2)) AS importo_scontato
+FROM vendite
+WHERE sconto > 0;
